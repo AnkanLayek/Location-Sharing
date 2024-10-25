@@ -8,9 +8,36 @@ html, body{
     height: 60%;
 }
 
+#centerCircle {
+    z-index: 400;
+    background-color: white;
+    padding: 0.5rem;
+    border-radius: 50%;
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 1px 1px 5px #000;
+}
+
+#centerCircle:active {
+    box-shadow: -1px -1px 5px #000;
+}
+
+#centerIcon {
+    font-size: 1.5rem;
+}
+
 #speedLine {
     font-size: 2rem;
     display: flex;
+    align-items: flex-end;
     gap: 1rem;
     margin: 1rem;
+}
+
+.unit {
+    font-size: 1rem;
 }
