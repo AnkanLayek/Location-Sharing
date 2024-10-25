@@ -1,10 +1,12 @@
+const speedLine = document.querySelector("#speed");
+
 const socket = io();
 
 if(navigator.geolocation){
     navigator.geolocation.watchPosition((position) => {
-        const {latitude, longitude, accuracy} = position.coords;
-        console.log(latitude, longitude, accuracy/1000);
-        socket.emit("send-location", { latitude, longitude });
+        const {latitude, longitude, accuracy, speed} = position.coords;
+        // console.log(latitude, longitude, accuracy/1000);
+        socket.emit("send-location", { latitude, longitude, speed });
     },
     (error) => {
         console.error(error);
@@ -25,7 +27,7 @@ L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
 const markers = {};
 
 socket.on("receive-location", (data) => {
-    const {id, latitude, longitude} = data;
+    let {id, latitude, longitude, speed} = data;
     map.setView([latitude, longitude], 13);
     if(markers[id]) {
         markers[id].setLatLng([latitude, longitude]);
@@ -33,6 +35,12 @@ socket.on("receive-location", (data) => {
     else {
         markers[id] = L.marker([latitude, longitude]).addTo(map);
     }
+
+    if(speed == null){
+        speed = "null"
+    }
+
+    speedLine.innerText = `${speed}`;
 });
 
 socket.on("user-disconnected", (id) => {
